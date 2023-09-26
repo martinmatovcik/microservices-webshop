@@ -1,5 +1,9 @@
 package com.mm.learninginventoryservice.service;
 
+import com.mm.learninginventoryservice.dto.InventoryResponseDto;
+
+import java.util.List;
+
 public interface InventoryService {
-    public boolean isInStock(String skuCode);
+    List<InventoryResponseDto> isInStock(List<String> skuCodes);
 }
