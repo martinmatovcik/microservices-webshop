@@ -3,11 +3,9 @@ package com.mm.learningorderservice.service;
 import com.mm.learningorderservice.dto.InventoryResponseDto;
 import com.mm.learningorderservice.dto.OrderLineItemsDto;
 import com.mm.learningorderservice.dto.OrderRequestDto;
-import com.mm.learningorderservice.dto.OrderResponseDto;
 import com.mm.learningorderservice.model.Order;
 import com.mm.learningorderservice.model.OrderLineItems;
 import com.mm.learningorderservice.repository.OrderRepository;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
   private final OrderRepository orderRepository;
-  private final WebClient webClient;
+  private final WebClient.Builder webClientBuilder;
 
   @Override
   public String placeOrder(OrderRequestDto orderRequestDto) {
@@ -35,10 +33,10 @@ public class OrderServiceImpl implements OrderService {
         order.getOrderLineItemsList().stream().map(OrderLineItems::getSkuCode).toList();
 
     InventoryResponseDto[] inventoryResponseDtos =
-        webClient
+        webClientBuilder.build()
             .get()
             .uri(
-                "http://localhost:8082/api/inventory",
+                "http://inventory-service/api/inventory",
                 uriBuilder -> uriBuilder.queryParam("skuCodes", skuCodes).build())
             .retrieve()
             .bodyToMono(InventoryResponseDto[].class)
@@ -52,14 +50,5 @@ public class OrderServiceImpl implements OrderService {
     } else {
       throw new IllegalArgumentException("Product is not in stock, please try again later");
     }
-  }
-
-  @Override
-  public List<OrderResponseDto> getAllProducts() {
-    return orderRepository.findAll().stream().map(this::mapToOrderResponseDto).toList();
-  }
-
-  private OrderResponseDto mapToOrderResponseDto(Order order) {
-    return new OrderResponseDto();
   }
 }

@@ -41,8 +41,8 @@ public class ProductControllerIntegrationTests {
   @Autowired private ProductRepository productRepository;
 
   @DynamicPropertySource
-  private static void setProperties(DynamicPropertyRegistry dymDynamicPropertyRegistry) {
-    dymDynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+  private static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
+    dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
 
   @Test
