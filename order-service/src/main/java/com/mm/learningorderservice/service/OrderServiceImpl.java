@@ -33,7 +33,8 @@ public class OrderServiceImpl implements OrderService {
         order.getOrderLineItemsList().stream().map(OrderLineItems::getSkuCode).toList();
 
     InventoryResponseDto[] inventoryResponseDtos =
-        webClientBuilder.build()
+        webClientBuilder
+            .build()
             .get()
             .uri(
                 "http://inventory-service/api/inventory",
@@ -42,7 +43,8 @@ public class OrderServiceImpl implements OrderService {
             .bodyToMono(InventoryResponseDto[].class)
             .block();
 
-    boolean allProductsInStock = Arrays.stream(inventoryResponseDtos).allMatch(InventoryResponseDto::isInStock);
+    boolean allProductsInStock =
+        Arrays.stream(inventoryResponseDtos).allMatch(InventoryResponseDto::isInStock);
 
     if (allProductsInStock) {
       orderRepository.save(order);

@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderLineItemsDto {
-    private Long id;
-    private String skuCode;
-    private BigDecimal price;
-    private Integer quantity;
+  private Long id;
+  private String skuCode;
+  private BigDecimal price;
+  private Integer quantity;
 
-    public OrderLineItems mapToOrderLineItems(){
-        return OrderLineItems.builder()
-                .id(this.id)
-                .skuCode(this.skuCode)
-                .price(this.price)
-                .quantity(this.quantity)
-                .build();
-    }
+  public OrderLineItems mapToOrderLineItems() {
+    return OrderLineItems.builder()
+        .id(this.id)
+        .skuCode(this.skuCode)
+        .price(this.price)
+        .quantity(this.quantity)
+        .build();
+  }
 }

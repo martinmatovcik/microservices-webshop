@@ -18,10 +18,10 @@ public class InventoryServiceImpl implements InventoryService {
     return inventoryRepository.findBySkuCodeIn(skuCodes).stream()
         .map(
             inventory ->
-              InventoryResponseDto.builder()
-                  .skuCode(inventory.getSkuCode())
-                  .isInStock(inventory.getQuantity() > 0)
-                  .build()
-            ).toList();
+                InventoryResponseDto.builder()
+                    .skuCode(inventory.getSkuCode())
+                    .isInStock(inventory.getQuantity() > 0)
+                    .build())
+        .toList();
   }
 }

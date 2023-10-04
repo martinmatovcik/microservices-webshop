@@ -2,11 +2,10 @@ package com.mm.learninginventoryservice.controller;
 
 import com.mm.learninginventoryservice.dto.InventoryResponseDto;
 import com.mm.learninginventoryservice.service.InventoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory")

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrderController {
   private final OrderService orderService;
+
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public String placeOrder(@RequestBody OrderRequestDto orderRequestDto) {
     String orderNumber = orderService.placeOrder(orderRequestDto);
     return "Order placed successfully. Number of your order is: " + orderNumber;
   }
-
 }

@@ -1,10 +1,8 @@
 package com.mm.learningorderservice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.math.BigDecimal;
-import java.util.List;
+import lombok.*;
 
 @Entity
 @Table(name = "t_order_line_items")
@@ -14,8 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrderLineItems {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    private String skuCode;
-    private BigDecimal price;
-    private Integer quantity;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  private String skuCode;
+  private BigDecimal price;
+  private Integer quantity;
 }

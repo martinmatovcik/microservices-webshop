@@ -1,14 +1,11 @@
 package com.mm.learningorderservice.integrationTest;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.mm.learningorderservice.dto.InventoryResponseDto;
-import com.mm.learningorderservice.model.Order;
 import com.mm.learningorderservice.repository.OrderRepository;
 import java.io.IOException;
 import java.util.UUID;
@@ -23,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -37,14 +33,13 @@ public class OrderControllerIntegrationTests {
   @Container
   private static final PostgreSQLContainer<?> postgresContainer =
       new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-              .withUsername("myuser")
-              .withPassword("secret");
+          .withUsername("myuser")
+          .withPassword("secret");
 
   @Autowired private MockMvc mockMvc;
   @Autowired private OrderRepository orderRepository;
   public static MockWebServer mockWebServer;
-  @MockBean
-  UUID mockUUID;
+  @MockBean UUID mockUUID;
 
   @DynamicPropertySource
   private static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
@@ -58,20 +53,21 @@ public class OrderControllerIntegrationTests {
     mockWebServer = new MockWebServer();
     mockWebServer.start();
   }
+
   @AfterAll
   static void tearDown() throws IOException {
     mockWebServer.shutdown();
   }
 
-
   @Test
   public void placeOrder_shouldCreateOrder() throws Exception {
-//    when(mockUUID.randomUUID().toString()).thenReturn("order-random-uuid");
-    InventoryResponseDto[] mockedInventoryResponseDtos = {
-      new InventoryResponseDto("sku-1", true)};
+    //    when(mockUUID.randomUUID().toString()).thenReturn("order-random-uuid");
+    InventoryResponseDto[] mockedInventoryResponseDtos = {new InventoryResponseDto("sku-1", true)};
 
-mockWebServer.enqueue(new MockResponse().setBody("order-random-uuid")
-        .addHeader("Content-Type", "application/json"));
+    mockWebServer.enqueue(
+        new MockResponse()
+            .setBody("order-random-uuid")
+            .addHeader("Content-Type", "application/json"));
 
     String orderJson =
         """
@@ -87,12 +83,10 @@ mockWebServer.enqueue(new MockResponse().setBody("order-random-uuid")
 """;
 
     mockMvc
-        .perform(
-            post("/api/orders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(orderJson))
+        .perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON).content(orderJson))
         .andExpect(status().isCreated())
-            .andExpect(content().string(containsString("Order placed successfully. Number of your order is:")));
-
+        .andExpect(
+            content()
+                .string(containsString("Order placed successfully. Number of your order is:")));
   }
 }
