@@ -18,7 +18,17 @@ services:
     ports:
       - '27017:27017'
 
-#  inventory-db:
+  keycloak:
+    image: 'quay.io/keycloak/keycloak:latest'
+    environment:
+      - 'KEYCLOAK_ADMIN=admin'
+      - 'KEYCLOAK_ADMIN_PASSWORD=admin'
+    ports:
+      - '8181:8080'
+    command: 'start-dev'
+
+
+    #  inventory-db:
 #    image: 'postgres:latest'
 #    environment:
 #      - 'POSTGRES_DB=inventory-service-db'
